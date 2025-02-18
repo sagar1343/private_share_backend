@@ -22,14 +22,13 @@ class GoogleLoginView(ListCreateAPIView, GenericAPIView):
         token = request.data.get("token")
         response = verify_google_token(token)
         if not response:
-            return Response(data={'error': "Invalid token"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(data={'error': "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
         email = response.get("email")
         first_name = response.get("given_name")
         last_name = response.get("family_name")
         profile_pic = response.get("picture")
         user, created = User.objects.get_or_create(email=email,
                                                    defaults={
-
                                                        "first_name": first_name,
                                                        "last_name": last_name,
                                                        "profile_pic": profile_pic})
