@@ -13,4 +13,4 @@ def verify_google_token(token):
 def generate_token_pair(user):
     refresh = RefreshToken.for_user(user)
     access_token = refresh.access_token
-    return [access_token, refresh]
+    return [str(access_token), str(refresh)]
