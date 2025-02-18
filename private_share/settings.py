@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "debug_toolbar",
     "rest_framework",
+    "core",
     "vault",
 ]
 
@@ -82,8 +83,12 @@ WSGI_APPLICATION = "private_share.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "private_share",
+        "HOST": "127.0.0.1",
+        "PORT": 3306,
+        "USER": "root",
+        "PASSWORD": "#01f3e9b",
     }
 }
 
@@ -128,3 +133,5 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "core.User"
