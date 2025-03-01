@@ -40,4 +40,4 @@ class GoogleLoginView(ListCreateAPIView):
             user.save()
 
         access_token, refresh_token = generate_token_pair(user)
-        return Response({'access_token': access_token, 'refresh_token': refresh_token})
+        return Response({'access': access_token, 'refresh': refresh_token})
