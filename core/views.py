@@ -21,7 +21,7 @@ class GoogleLoginView(ListCreateAPIView):
         elif self.request.method == "POST":
             return GoogleLoginSerializer
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         token = request.data.get("token")
         response = verify_google_token(token)
         if not response:

@@ -10,6 +10,7 @@ django = "*"
 requests = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
