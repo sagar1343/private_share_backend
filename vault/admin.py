@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import PrivateFile, Collection, Recipient, AccessLog
+from .models import PrivateFile, Collection, AccessLog, FilePermission
 
 
 # Register your models here.
@@ -16,15 +16,23 @@ class CollectionAdmin(admin.ModelAdmin):
 @admin.register(PrivateFile)
 class PrivateFileAdmin(admin.ModelAdmin):
     list_display = ["file_name", "created_at", "max_download_count", "download_count", "expiration_time", "logs_count"]
-    
+
     @admin.display(description="Logs")
     def logs_count(self, obj):
         return obj.accesslog_set.count()
 
 
-@admin.register(Recipient)
-class RecipientAdmin(admin.ModelAdmin):
-    list_display = ["user", "permission_type", "private_file"]
+@admin.register(FilePermission)
+class FilePermissionAdmin(admin.ModelAdmin):
+    list_display = ['file', 'viewers_count', 'downloaders_count']
+
+    @admin.display(description="Viewers")
+    def viewers_count(self, obj):
+        return obj.viewers.count()
+
+    @admin.display(description="Downloaders")
+    def downloaders_count(self, obj):
+        return obj.downloaders.count()
 
 
 @admin.register(AccessLog)

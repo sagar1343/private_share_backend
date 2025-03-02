@@ -13,8 +13,12 @@ class TestAuthentication:
 
     def test_only_owner_access_details(self):
         client = APIClient()
-        user1 = get_user_model().objects.create(username="username1", email="user1@gmail.com", password="password1")
-        user2 = get_user_model().objects.create(username="username2", email="user2@gmail.com", password="password2")
+        user1 = get_user_model().objects.create_user(username="username1",
+                                                     email="user1@gmail.com",
+                                                     password="password1")
+        user2 = get_user_model().objects.create_user(username="username2",
+                                                     email="user2@gmail.com",
+                                                     password="password2")
 
         client.force_authenticate(user=user1)
         response = client.get(f'/vault/users/{user1.id}/')

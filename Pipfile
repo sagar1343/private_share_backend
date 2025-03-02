@@ -11,6 +11,7 @@ requests = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 drf-nested-routers = "*"
+django-filter = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
