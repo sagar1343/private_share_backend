@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from rest_framework import viewsets, permissions, filters
+from django.shortcuts import get_object_or_404
+from rest_framework import viewsets, permissions, filters, mixins
 
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
@@ -15,7 +16,7 @@ class UserViewset(viewsets.ReadOnlyModelViewSet):
     search_fields = ['email']
 
     def get_permissions(self):
-        return [permissions.AllowAny()] if self.action == 'list' else [IsOwner()]
+        return [permissions.IsAuthenticated()] if self.action == 'list' else [IsOwner()]
 
 
 class CollectionViewset(viewsets.ModelViewSet):
@@ -37,14 +38,23 @@ class PrivateFileViewset(viewsets.ModelViewSet):
     pagination_class = None
 
     def get_queryset(self):
-        return PrivateFile.objects.filter(collections__user=self.request.user).prefetch_related('collections')
+        return (PrivateFile.objects
+                .filter(collections__user=self.request.user)
+                .prefetch_related('collections')
+                .distinct())
 
 
-class FilePermissionViewset(viewsets.ModelViewSet):
-    queryset = FilePermission.objects.all()
+class FilePermissionViewset(mixins.RetrieveModelMixin,
+                            mixins.UpdateModelMixin,
+                            viewsets.GenericViewSet):
     serializer_class = FilePermissionSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
+    def get_object(self):
+        file_pk = self.kwargs.get('file_pk')
+        return get_object_or_404(FilePermission, file_id=file_pk)
 
+   
 class AccessLogViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = AccessLogSerializer
 

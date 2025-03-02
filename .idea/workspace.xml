@@ -5,7 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created permission signal">
-      <change beforePath="$PROJECT_DIR$/vault/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/signals.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/private_share/tests/test_permission.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/tests/test_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_authentication.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/tests/test_collections.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_collections.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/tests/test_private_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_private_file.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vault/migrations/0002_rename_accesslogs_accesslog.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vault/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vault/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vault/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,8 +70,10 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Django Server.private_share_backend.executor": "Run",
+    "Django tests.Test: private_share.tests.executor": "Run",
     "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
     "Notification.DoNotAsk-Database detector": "true",
+    "Python tests.Python tests for test_permission.TestPermission.executor": "Run",
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -88,7 +100,28 @@
       <recent name="$PROJECT_DIR$/media" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Django tests.Test: private_share.tests">
+    <configuration name="Test: private_share.tests" type="DjangoTestsConfigurationType" temporary="true">
+      <module name="private_share_backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="private_share.tests" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="private_share_backend" type="Python.DjangoServer" factoryName="Django server">
       <module name="private_share_backend" />
       <option name="ENV_FILES" value="" />
@@ -138,6 +171,28 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for test_permission.TestPermission" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="private_share_backend" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/private_share/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_permission.TestPermission&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Django tests.Test: private_share.tests" />
+        <item itemvalue="Python tests.Python tests for test_permission.TestPermission" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -256,5 +311,9 @@
     <MESSAGE value="corrected signal import" />
     <option name="LAST_COMMIT_MESSAGE" value="corrected signal import" />
     <option name="LAST_CHUNK_COMMIT_MESSAGE" value="corrected signal import" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/private_share_backend$Test__private_share_tests.coverage" NAME="Test: private_share.tests Coverage Results" MODIFIED="1740955251449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/private_share_backend$.coverage" NAME=" Coverage Results" MODIFIED="1740954797024" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/private_share/tests" />
   </component>
 </project>

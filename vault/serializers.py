@@ -13,35 +13,41 @@ class UserSerializer(serializers.ModelSerializer):
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
-        fields = ['id', 'title', 'user_id', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'user', 'created_at', 'updated_at']
 
 
 class PrivateFileSerializer(serializers.ModelSerializer):
     download_count = serializers.IntegerField(read_only=True)
-    collections = serializers.SerializerMethodField()
 
     class Meta:
         model = PrivateFile
-        fields = ["id", "file", "file_name", "collections", "expiration_time", "max_download_count", "download_count",
-                  "created_at"]
-
-    def get_collections(self, obj):
-        return [collection.title for collection in obj.collections.all()]
+        fields = ["id", "file", "file_name", "collections",
+                  "expiration_time", "max_download_count",
+                  "download_count", "created_at"]
 
     def validate_file(self, value):
         if value.size > 5 * 1024 * 1024:
             raise serializers.ValidationError("File size must be less than 5MB")
         return value
 
-    def validate_collection(self, value):
+    def validate_collections(self, value):
         user = self.context["request"].user
-        user_collection = user.collection_set.values_list('id', flat=True)
-        if value in user_collection:
+        user_collection_ids = set(user.collection_set.values_list('id', flat=True))
+        collection_ids = {collection.id for collection in value}
+        if collection_ids.issubset(user_collection_ids):
             return value
-        raise serializers.ValidationError("Collection does not exist")
+        raise serializers.ValidationError("One or more collections does not exist for this user.")
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation["collections"] = \
+            [collection for collection in instance.collections.values_list('title', flat=True)]
+        return representation
 
 
 class FilePermissionSerializer(serializers.ModelSerializer):
+    file = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = FilePermission
         fields = ['file', 'viewers', 'downloaders']

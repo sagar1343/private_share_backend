@@ -7,7 +7,7 @@ from django.utils.timezone import now
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from vault.models import Collection
+from vault.models import Collection, FilePermission, PrivateFile
 
 
 @pytest.mark.django_db
@@ -23,14 +23,14 @@ class TestPrivateFile:
         collection = Collection.objects.create(title='test', user=user)
         client = APIClient()
         client.force_authenticate(user=user)
-        response = client.post("/vault/files/",
+        response = client.post("/api/files/",
                                {"file_name": "test_file", "file": large_file, collection: [collection.id],
                                 "expiration_time": (now() + timedelta(days=7)).isoformat()},
                                format="multipart")
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-    def test_collection_access_restriction(self):
+    def test_invalid_collection(self):
         user = get_user_model().objects.create(username='user', email='user@email', password='password')
         collection = Collection.objects.create(title='test', user=user)
 
@@ -47,7 +47,7 @@ class TestPrivateFile:
             content_type="text/plain"
         )
 
-        response = client.post("/vault/files/", {
+        response = client.post("/api/files/", {
             "file_name": "test_file",
             "file": small_file,
             "collection": [collection.id],
@@ -55,3 +55,12 @@ class TestPrivateFile:
         }, format="multipart")
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    def test_check_permission_is_creating_for_private_file(self):
+        user = get_user_model().objects.create_user(username="testuser", password="testpass")
+        collection1 = Collection.objects.create(title='test', user=user)
+        private_file = PrivateFile.objects.create(file_name="test", file="test.txt",
+                                                  expiration_time=(now() + timedelta(days=7)).isoformat())
+        private_file.collections.set([collection1])
+
+        assert FilePermission.objects.filter(file=private_file).exists()

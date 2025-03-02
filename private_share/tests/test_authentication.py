@@ -8,7 +8,7 @@ from rest_framework.test import APIClient
 class TestAuthentication:
     def test_only_authenticated_user_access_user_details(self):
         client = APIClient()
-        response = client.get('/vault/users/2/')
+        response = client.get('/api/users/2/')
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     def test_only_owner_access_details(self):
@@ -21,10 +21,10 @@ class TestAuthentication:
                                                      password="password2")
 
         client.force_authenticate(user=user1)
-        response = client.get(f'/vault/users/{user1.id}/')
+        response = client.get(f'/api/users/{user1.id}/')
         assert response.status_code == status.HTTP_200_OK
 
-        response = client.get(f'/vault/users/{user2.id}/')
+        response = client.get(f'/api/users/{user2.id}/')
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_list_user_for_admin_user_only(self):
@@ -33,5 +33,5 @@ class TestAuthentication:
                                                           username='admin',
                                                           password='password')
         client.force_authenticate(user=admin)
-        response = client.get('/vault/users/')
+        response = client.get('/api/users/')
         assert response.status_code == status.HTTP_200_OK
