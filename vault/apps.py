@@ -6,4 +6,4 @@ class VaultConfig(AppConfig):
     name = 'vault'
 
     def ready(self):
-        pass
+        import vault.signals
