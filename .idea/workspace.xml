@@ -4,21 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="restricted private resources">
-      <change afterPath="$PROJECT_DIR$/private_share/tests/test_private_file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vault/signals.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Pipfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Pipfile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/tests/test_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/permissions.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/permissions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/views.py" afterDir="false" />
+    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created permission signal">
+      <change beforePath="$PROJECT_DIR$/vault/signals.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/signals.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +170,7 @@
       <workItem from="1740585465622" duration="1251000" />
       <workItem from="1740850774882" duration="15569000" />
       <workItem from="1740867394059" duration="5806000" />
-      <workItem from="1740906057489" duration="15441000" />
+      <workItem from="1740906057489" duration="15914000" />
     </task>
     <task id="LOCAL-00001" summary="created google login view">
       <option name="closed" value="true" />
@@ -233,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740866373034</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="created permission signal">
+      <option name="closed" value="true" />
+      <created>1740921621886</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1740921621886</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +252,9 @@
     <MESSAGE value="Created model" />
     <MESSAGE value="created collection viewset" />
     <MESSAGE value="restricted private resources" />
-    <option name="LAST_COMMIT_MESSAGE" value="restricted private resources" />
+    <MESSAGE value="created permission signal" />
+    <MESSAGE value="corrected signal import" />
+    <option name="LAST_COMMIT_MESSAGE" value="corrected signal import" />
+    <option name="LAST_CHUNK_COMMIT_MESSAGE" value="corrected signal import" />
   </component>
 </project>
