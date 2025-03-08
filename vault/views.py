@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, permissions, filters, mixins
+from django.utils import timezone
+from rest_framework import viewsets, permissions, filters, mixins, status
+from rest_framework.response import Response
 
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
@@ -54,9 +57,31 @@ class FilePermissionViewset(mixins.RetrieveModelMixin,
         file_pk = self.kwargs.get('file_pk')
         return get_object_or_404(FilePermission, file_id=file_pk)
 
-   
+
 class AccessLogViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = AccessLogSerializer
 
     def get_queryset(self):
         return AccessLog.objects.filter(private_file_id=self.kwargs['file_pk']).select_related('user', 'private_file')
+
+
+class FileShareViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    queryset = PrivateFile.objects.all()
+    serializer_class = PrivateFileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        file_permisssion = get_object_or_404(FilePermission, file=instance.id)
+        if instance.expiration_time < timezone.now():
+            return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)
+
+        if file_permisssion.viewers.filter(id=self.request.user.id).exists():
+            instance.file.open('rb')
+            response = FileResponse(instance.file)
+            response['Content-Disposition'] = f'inline; filename="{instance.file.name}"'
+            return response
+        if file_permisssion.downloaders.filter(id=self.request.user.id).exists():
+            instance.file.open('rb')
+            return FileResponse(instance, as_attachment=True)
+        return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)

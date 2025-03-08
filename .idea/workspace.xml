@@ -4,16 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created permission signal">
-      <change afterPath="$PROJECT_DIR$/private_share/tests/test_permission.py" afterDir="false" />
+    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created permission endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/tests/test_authentication.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_authentication.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/tests/test_collections.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_collections.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/tests/test_private_file.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_private_file.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/migrations/0002_rename_accesslogs_accesslog.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vault/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vault/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vault/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/views.py" afterDir="false" />
     </list>
@@ -66,62 +59,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Django Server.private_share_backend.executor": "Run",
-    "Django tests.Test: private_share.tests.executor": "Run",
-    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
-    "Notification.DoNotAsk-Database detector": "true",
-    "Python tests.Python tests for test_permission.TestPermission.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/sagar/Development/private_share_backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor.code.editing",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Django Server.private_share_backend.executor&quot;: &quot;Run&quot;,
+    &quot;Django tests.Test: private_share.tests.executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
+    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
+    &quot;Python tests.Python tests for test_permission.TestPermission.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sagar/Development/private_share_backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.dbt.settings.DbtProjectConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/private_share" />
       <recent name="$PROJECT_DIR$/media" />
     </key>
   </component>
-  <component name="RunManager" selected="Django tests.Test: private_share.tests">
-    <configuration name="Test: private_share.tests" type="DjangoTestsConfigurationType" temporary="true">
-      <module name="private_share_backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="TARGET" value="private_share.tests" />
-      <option name="SETTINGS_FILE" value="" />
-      <option name="CUSTOM_SETTINGS" value="false" />
-      <option name="USE_OPTIONS" value="false" />
-      <option name="OPTIONS" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="private_share_backend" type="Python.DjangoServer" factoryName="Django server">
       <module name="private_share_backend" />
       <option name="ENV_FILES" value="" />
@@ -171,28 +144,6 @@
       <option name="customRunCommand" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_permission.TestPermission" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="private_share_backend" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/private_share/tests" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_permission.TestPermission&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Django tests.Test: private_share.tests" />
-        <item itemvalue="Python tests.Python tests for test_permission.TestPermission" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -226,6 +177,9 @@
       <workItem from="1740850774882" duration="15569000" />
       <workItem from="1740867394059" duration="5806000" />
       <workItem from="1740906057489" duration="15914000" />
+      <workItem from="1741013828911" duration="4916000" />
+      <workItem from="1741342559345" duration="1290000" />
+      <workItem from="1741434014521" duration="2823000" />
     </task>
     <task id="LOCAL-00001" summary="created google login view">
       <option name="closed" value="true" />

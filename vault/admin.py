@@ -15,7 +15,8 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(PrivateFile)
 class PrivateFileAdmin(admin.ModelAdmin):
-    list_display = ["file_name", "created_at", "max_download_count", "download_count", "expiration_time", "logs_count"]
+    list_display = ["file_name", 'id', "created_at", "max_download_count", "download_count", "expiration_time",
+                    "logs_count"]
 
     @admin.display(description="Logs")
     def logs_count(self, obj):
