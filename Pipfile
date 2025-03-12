@@ -5,13 +5,13 @@ name = "pypi"
 
 [packages]
 djangorestframework = "*"
-mysqlclient = "*"
 django = "*"
 requests = "*"
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 drf-nested-routers = "*"
 django-filter = "*"
+mysqlclient = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

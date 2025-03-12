@@ -13,6 +13,10 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -89,15 +93,15 @@ WSGI_APPLICATION = "private_share.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+print(os.getenv("DATABASE_NAME"))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "private_share",
-        "HOST": "127.0.0.1",
-        "PORT": 3306,
-        "USER": "root",
-        "PASSWORD": "#01f3e9b",
+        "NAME": os.getenv("DATABASE_NAME"),
+        "HOST": os.getenv("DATABASE_HOST"),
+        "PORT": os.getenv("DATABASE_PORT"),
+        "USER": os.getenv("DATABASE_USER"),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
     }
 }
 
