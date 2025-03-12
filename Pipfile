@@ -12,6 +12,7 @@ django-cors-headers = "*"
 drf-nested-routers = "*"
 django-filter = "*"
 mysqlclient = "*"
+python-dotenv = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
