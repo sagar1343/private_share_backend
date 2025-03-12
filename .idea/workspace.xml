@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created permission endpoint">
+    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created new endpoint">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,7 +177,9 @@
       <workItem from="1740906057489" duration="15914000" />
       <workItem from="1741013828911" duration="4916000" />
       <workItem from="1741342559345" duration="1290000" />
-      <workItem from="1741434014521" duration="2823000" />
+      <workItem from="1741434014521" duration="5437000" />
+      <workItem from="1741613334822" duration="827000" />
+      <workItem from="1741756773227" duration="670000" />
     </task>
     <task id="LOCAL-00001" summary="created google login view">
       <option name="closed" value="true" />
@@ -237,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740921621886</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="created new endpoint">
+      <option name="closed" value="true" />
+      <created>1741438932954</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741438932954</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +271,8 @@
     <MESSAGE value="restricted private resources" />
     <MESSAGE value="created permission signal" />
     <MESSAGE value="corrected signal import" />
-    <option name="LAST_COMMIT_MESSAGE" value="corrected signal import" />
+    <MESSAGE value="created new endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="created new endpoint" />
     <option name="LAST_CHUNK_COMMIT_MESSAGE" value="corrected signal import" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">

@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://private-share-frontend.vercel.app"
 ]
 
 INTERNAL_IPS = ["127.0.0.1"]
