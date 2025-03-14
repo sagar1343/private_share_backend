@@ -4,16 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created cloud db">
-      <change afterPath="$PROJECT_DIR$/private_share/tests/test_fileshare.py" afterDir="false" />
+    <list default="true" id="38aa83ab-87af-448d-a1cd-fc27ba88cb4b" name="Changes" comment="created fileshareviewset">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/private_share/tests/test_collections.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/tests/test_collections.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/private_share/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/private_share/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vault/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vault/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vault/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +31,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -275,7 +268,8 @@
       <workItem from="1741780095991" duration="5945000" />
       <workItem from="1741846659618" duration="7164000" />
       <workItem from="1741885206229" duration="8846000" />
-      <workItem from="1741895287269" duration="3288000" />
+      <workItem from="1741895287269" duration="3904000" />
+      <workItem from="1741956555164" duration="1607000" />
     </task>
     <task id="LOCAL-00001" summary="created google login view">
       <option name="closed" value="true" />
@@ -357,7 +351,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741799189884</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="created fileshareviewset">
+      <option name="closed" value="true" />
+      <created>1741956152609</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1741956152609</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -386,7 +388,8 @@
     <MESSAGE value="created new endpoint" />
     <MESSAGE value="Allowed login through product environment" />
     <MESSAGE value="created cloud db" />
-    <option name="LAST_COMMIT_MESSAGE" value="created cloud db" />
+    <MESSAGE value="created fileshareviewset" />
+    <option name="LAST_COMMIT_MESSAGE" value="created fileshareviewset" />
     <option name="LAST_CHUNK_COMMIT_MESSAGE" value="corrected signal import" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">

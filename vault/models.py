@@ -17,6 +17,7 @@ class Collection(models.Model):
 class PrivateFile(models.Model):
     file_name = models.CharField(max_length=255)
     file = models.FileField(upload_to="private_files")
+    password = models.CharField(max_length=255, null=True, blank=True)
     max_download_count = models.PositiveSmallIntegerField(default=3)
     download_count = models.PositiveSmallIntegerField(default=0)
     expiration_time = models.DateTimeField(null=True, blank=True)
