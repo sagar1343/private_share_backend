@@ -25,15 +25,11 @@ class PrivateFileAdmin(admin.ModelAdmin):
 
 @admin.register(FilePermission)
 class FilePermissionAdmin(admin.ModelAdmin):
-    list_display = ['file', 'viewers_count', 'downloaders_count']
+    list_display = ['file', 'recipients_count']
 
-    @admin.display(description="Viewers")
-    def viewers_count(self, obj):
-        return obj.viewers.count()
-
-    @admin.display(description="Downloaders")
-    def downloaders_count(self, obj):
-        return obj.downloaders.count()
+    @admin.display(description="Recipients")
+    def recipients_count(self, obj):
+        return obj.allowed_users.count()
 
 
 @admin.register(AccessLog)

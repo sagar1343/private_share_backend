@@ -15,13 +15,19 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = ['id', 'title', 'user', 'created_at', 'updated_at']
 
+    def validate_title(self, value):
+        collection_exists = Collection.objects.filter(user=self.context['user'], title__iexact=value).exists()
+        if collection_exists:
+            raise serializers.ValidationError("Collection title is already in use.")
+        return value
+
 
 class PrivateFileSerializer(serializers.ModelSerializer):
     download_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = PrivateFile
-        fields = ["id", "file", "file_name", "collections",
+        fields = ["id", "file", "file_name", "password", "collections",
                   "expiration_time", "max_download_count",
                   "download_count", "created_at"]
 
@@ -42,6 +48,7 @@ class PrivateFileSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         representation["collections"] = \
             [collection for collection in instance.collections.values_list('title', flat=True)]
+        representation.pop("password")
         return representation
 
 
@@ -50,12 +57,11 @@ class FilePermissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FilePermission
-        fields = ['file', 'viewers', 'downloaders']
+        fields = ['file', 'allowed_users']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation['viewers'] = list(instance.viewers.values_list('email', flat=True))
-        representation['downloaders'] = list(instance.downloaders.values_list('email', flat=True))
+        representation['allowed_users'] = list(instance.allowed_users.values_list('email', flat=True))
         return representation
 
 
@@ -72,3 +78,14 @@ class AccessLogSerializer(serializers.ModelSerializer):
 
     def get_access_by(self, obj):
         return obj.user.email
+
+
+class FileShareSerializer(serializers.ModelSerializer):
+    owner = serializers.SerializerMethodField()
+
+    class Meta:
+        model = PrivateFile
+        fields = ['id', 'file_name', 'owner']
+
+    def get_owner(self, obj):
+        return obj.collections.first().user.email

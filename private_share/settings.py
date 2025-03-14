@@ -93,7 +93,6 @@ WSGI_APPLICATION = "private_share.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-print(os.getenv("DATABASE_NAME"))
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",

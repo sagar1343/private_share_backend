@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
+from django.db.models import F
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -9,7 +11,7 @@ from rest_framework.response import Response
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
 from .serializers import CollectionSerializer, UserSerializer, PrivateFileSerializer, AccessLogSerializer, \
-    FilePermissionSerializer
+    FilePermissionSerializer, FileShareSerializer
 
 
 class UserViewset(viewsets.ReadOnlyModelViewSet):
@@ -32,6 +34,9 @@ class CollectionViewset(viewsets.ModelViewSet):
         if user_pk != self.request.user.id:
             raise PermissionDenied("You are not allowed to view this collection")
         return Collection.objects.filter(user=self.kwargs['user_pk'])
+
+    def get_serializer_context(self):
+        return {'user': self.request.user}
 
 
 class PrivateFileViewset(viewsets.ModelViewSet):
@@ -65,23 +70,32 @@ class AccessLogViewset(viewsets.ReadOnlyModelViewSet):
         return AccessLog.objects.filter(private_file_id=self.kwargs['file_pk']).select_related('user', 'private_file')
 
 
-class FileShareViewset(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
-    queryset = PrivateFile.objects.all()
-    serializer_class = PrivateFileSerializer
+class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = FileShareSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return (PrivateFile.objects
+                .filter(file_permissions__allowed_users=self.request.user))
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         file_permisssion = get_object_or_404(FilePermission, file=instance.id)
-        if instance.expiration_time < timezone.now():
-            return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)
 
-        if file_permisssion.viewers.filter(id=self.request.user.id).exists():
-            instance.file.open('rb')
-            response = FileResponse(instance.file)
-            response['Content-Disposition'] = f'inline; filename="{instance.file.name}"'
-            return response
-        if file_permisssion.downloaders.filter(id=self.request.user.id).exists():
-            instance.file.open('rb')
-            return FileResponse(instance, as_attachment=True)
-        return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)
+        if instance.expiration_time and instance.expiration_time < timezone.now():
+            return Response({"message": "This file has expired"}, status=status.HTTP_403_FORBIDDEN)
+
+        if not file_permisssion.allowed_users.filter(id=self.request.user.id).exists():
+            return Response({"message": "You are not allowed to view this file"})
+
+        with transaction.atomic():
+            private_file = PrivateFile.objects.get(id=instance.id)
+
+            if private_file.download_count >= private_file.max_download_count:
+                return Response({"message": "Download limit has been reached."}, status=status.HTTP_403_FORBIDDEN)
+
+            private_file.download_count = F('download_count') + 1
+            private_file.save()
+
+            AccessLog.objects.create(private_file=instance, user=self.request.user, access_time=timezone.now())
+            return FileResponse(instance.file, as_attachment=True)

@@ -9,7 +9,7 @@ router = routers.DefaultRouter()
 
 router.register(prefix='users', viewset=UserViewset, basename='users')
 router.register(prefix='files', viewset=PrivateFileViewset, basename='files')
-router.register(prefix='share', viewset=FileShareViewset, basename='shared-files')
+router.register(prefix='fileshare', viewset=FileShareViewset, basename='fileshare')
 
 user_router = routers.NestedDefaultRouter(router, parent_prefix='users', lookup='user')
 user_router.register(prefix='collections', viewset=CollectionViewset, basename="user-collections")

@@ -23,3 +23,15 @@ class TestCollections:
 
         response = client.get(f'/api/users/{user2.id}/collections/')
         assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_prevent_duplicate_collections(self):
+        user1 = get_user_model().objects.create(username="user1", email="user1@gmail.com", password="testpass1")
+
+        collection = Collection.objects.create(title="User1 Collection", user=user1)
+
+        api_client = APIClient()
+        api_client.force_authenticate(user=user1)
+
+        response = api_client.post(f'/api/users/{user1.id}/collections/', data={'title': collection.title})
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
