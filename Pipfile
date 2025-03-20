@@ -13,6 +13,7 @@ drf-nested-routers = "*"
 django-filter = "*"
 mysqlclient = "*"
 python-dotenv = "*"
+model-bakery = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"

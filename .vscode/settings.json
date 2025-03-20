@@ -1,0 +1,5 @@
+{
+  "python.testing.pytestArgs": ["private_share"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

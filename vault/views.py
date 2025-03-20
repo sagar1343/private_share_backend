@@ -33,7 +33,7 @@ class CollectionViewset(viewsets.ModelViewSet):
         user_pk = int(self.kwargs.get("user_pk", 0))
         if user_pk != self.request.user.id:
             raise PermissionDenied("You are not allowed to view this collection")
-        return Collection.objects.filter(user=self.kwargs['user_pk'])
+        return Collection.objects.filter(user=self.kwargs['user_pk']).order_by("-created_at")
 
     def get_serializer_context(self):
         return {'user': self.request.user}
