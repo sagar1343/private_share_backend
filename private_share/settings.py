@@ -9,9 +9,13 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+
 import os
 from datetime import timedelta
 from pathlib import Path
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 from dotenv import load_dotenv
 
@@ -34,7 +38,7 @@ ALLOWED_HOSTS = []
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://private-share-frontend.vercel.app"
+    "https://private-share-frontend.vercel.app",
 ]
 
 INTERNAL_IPS = ["127.0.0.1"]
@@ -53,8 +57,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
-    'drf_spectacular',
-    'drf_spectacular_sidecar',
+    "drf_spectacular",
+    "drf_spectacular_sidecar",
     "core",
     "vault",
 ]
@@ -96,11 +100,11 @@ WSGI_APPLICATION = "private_share.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DATABASE_NAME"),
-        "HOST": os.getenv("DATABASE_HOST"),
-        "PORT": os.getenv("DATABASE_PORT"),
-        "USER": os.getenv("DATABASE_USER"),
-        "PASSWORD": os.getenv("DATABASE_PASSWORD"),
+        "NAME": os.getenv("DEV_DATABASE_NAME"),
+        "HOST": os.getenv("DEV_DATABASE_HOST"),
+        "PORT": os.getenv("DEV_DATABASE_PORT"),
+        "USER": os.getenv("DEV_DATABASE_USER"),
+        "PASSWORD": os.getenv("DEV_DATABASE_PASSWORD"),
     }
 }
 
@@ -155,8 +159,9 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
     "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend", ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+        "django_filters.rest_framework.DjangoFilterBackend",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 SIMPLE_JWT = {
@@ -165,11 +170,11 @@ SIMPLE_JWT = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Private Share API',
-    'DESCRIPTION': 'Secure your files in your way.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_SETTINGS': {
-        'filter': True,
+    "TITLE": "Private Share API",
+    "DESCRIPTION": "Secure your files in your way.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "filter": True,
     },
 }

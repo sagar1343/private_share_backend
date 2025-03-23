@@ -11,9 +11,9 @@ djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
 drf-nested-routers = "*"
 django-filter = "*"
-mysqlclient = "*"
 python-dotenv = "*"
 model-bakery = "*"
+pymysql = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
