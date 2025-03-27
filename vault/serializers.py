@@ -24,13 +24,17 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 class PrivateFileSerializer(serializers.ModelSerializer):
     download_count = serializers.IntegerField(read_only=True)
+    is_protected = serializers.SerializerMethodField() 
 
     class Meta:
         model = PrivateFile
-        fields = ["id", "file", "file_name", "password", "collections",
+        fields = ["id", "file", "file_name", "password", "is_protected", "collections",
                   "expiration_time", "max_download_count",
                   "download_count", "created_at"]
-
+    
+    def get_is_protected (self, obj):
+        return obj.is_protected()
+    
     def validate_file(self, value):
         if value.size > 5 * 1024 * 1024:
             raise serializers.ValidationError("File size must be less than 5MB")

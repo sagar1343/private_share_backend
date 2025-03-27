@@ -86,7 +86,10 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
             return Response({"message": "This file has expired"}, status=status.HTTP_403_FORBIDDEN)
 
         if not file_permisssion.allowed_users.filter(id=self.request.user.id).exists():
-            return Response({"message": "You are not allowed to view this file"})
+            return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)
+
+        if instance.password and not instance.check_file_password(request.data.get("password")):
+            return Response({"message": "Invalid password"}, status=status.HTTP_401_UNAUTHORIZED)
 
         with transaction.atomic():
             private_file = PrivateFile.objects.get(id=instance.id)
