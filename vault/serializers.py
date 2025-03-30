@@ -24,7 +24,6 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 class PrivateFileSerializer(serializers.ModelSerializer):
     download_count = serializers.IntegerField(read_only=True)
-    is_protected = serializers.SerializerMethodField() 
 
     class Meta:
         model = PrivateFile
@@ -50,8 +49,6 @@ class PrivateFileSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        representation["collections"] = \
-            [collection for collection in instance.collections.values_list('title', flat=True)]
         representation.pop("password")
         return representation
 
@@ -85,11 +82,8 @@ class AccessLogSerializer(serializers.ModelSerializer):
 
 
 class FileShareSerializer(serializers.ModelSerializer):
-    owner = serializers.SerializerMethodField()
+    sender = serializers.CharField(read_only=True)
 
     class Meta:
         model = PrivateFile
-        fields = ['id', 'file_name', 'owner']
-
-    def get_owner(self, obj):
-        return obj.collections.first().user.email
+        fields = ['id', 'file_name', 'sender']

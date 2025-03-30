@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import F
+from django.db.models import F, OuterRef, Subquery
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -10,8 +10,7 @@ from rest_framework.response import Response
 
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
-from .serializers import CollectionSerializer, UserSerializer, PrivateFileSerializer, AccessLogSerializer, \
-    FilePermissionSerializer, FileShareSerializer
+from .serializers import CollectionSerializer, UserSerializer, PrivateFileSerializer, AccessLogSerializer, FilePermissionSerializer, FileShareSerializer
 
 
 class UserViewset(viewsets.ReadOnlyModelViewSet):
@@ -30,10 +29,10 @@ class CollectionViewset(viewsets.ModelViewSet):
     pagination_class = None
 
     def get_queryset(self):
-        user_pk = int(self.kwargs.get("user_pk", 0))
+        user_pk = int(self.kwargs.get('user_pk', 0))
         if user_pk != self.request.user.id:
             raise PermissionDenied("You are not allowed to view this collection")
-        return Collection.objects.filter(user=self.kwargs['user_pk']).order_by("-created_at")
+        return Collection.objects.filter(user=self.kwargs['user_pk']).order_by('-created_at')
 
     def get_serializer_context(self):
         return {'user': self.request.user}
@@ -46,18 +45,13 @@ class PrivateFileViewset(viewsets.ModelViewSet):
     pagination_class = None
 
     def get_queryset(self):
-        return (PrivateFile.objects
-                .filter(collections__user=self.request.user)
-                .prefetch_related('collections')
-                .distinct())
+        return PrivateFile.objects.prefetch_related('collections').filter(collections__user=self.request.user).distinct()
 
 
-class FilePermissionViewset(mixins.RetrieveModelMixin,
-                            mixins.UpdateModelMixin,
-                            viewsets.GenericViewSet):
+class FilePermissionViewset(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     serializer_class = FilePermissionSerializer
     permission_classes = [permissions.IsAuthenticated]
-
+    
     def get_object(self):
         file_pk = self.kwargs.get('file_pk')
         return get_object_or_404(FilePermission, file_id=file_pk)
@@ -75,8 +69,8 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return (PrivateFile.objects
-                .filter(file_permissions__allowed_users=self.request.user))
+        sender = Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values('user__email')[:1])
+        return PrivateFile.objects.filter(file_permissions__allowed_users=self.request.user).annotate(sender=sender)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -22,7 +22,6 @@ class TestFileShare:
         private_file = PrivateFile.objects.create(
             file_name="test_file.txt",
             file=test_file,
-            password="securepass",
             expiration_time=timezone.now() + timezone.timedelta(days=1),
             max_download_count=3,
         )
@@ -61,3 +60,52 @@ class TestFileShare:
         response = client.get(f"/api/fileshare/{expired_file.id}/")
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_protected_file_access_denied_for_incorrect_password(self):
+        owner = baker.make(get_user_model())
+        user = baker.make(get_user_model())
+        collection = baker.make(Collection, user=owner)
+        test_file = SimpleUploadedFile(
+            "test_file.txt", b"Test file content", content_type="text/plain"
+        )
+        file = PrivateFile.objects.create(
+            file_name="expired_file.txt",
+            file=test_file,
+            password="securepass",
+            expiration_time=timezone.now() + timezone.timedelta(days=1),
+            max_download_count=3,
+        )
+        file.collections.add(collection)
+        file_permission = FilePermission.objects.get(id=file.id)
+        file_permission.allowed_users.add(user)
+
+        client = APIClient()
+        client.force_authenticate(user=user)
+        response = client.get(f"/api/fileshare/{file.id}/", data={"password":"xsecurepass"})
+        
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        
+    def test_protected_file_access_for_correct_password(self):
+        owner = baker.make(get_user_model())
+        user = baker.make(get_user_model())
+        collection = baker.make(Collection, user=owner)
+        test_file = SimpleUploadedFile(
+            "test_file.txt", b"Test file content", content_type="text/plain"
+        )
+        file = PrivateFile.objects.create(
+            file_name="expired_file.txt",
+            file=test_file,
+            password="securepass",
+            expiration_time=timezone.now() + timezone.timedelta(days=1),
+            max_download_count=3,
+        )
+        file.collections.add(collection)
+        file_permission = FilePermission.objects.get(id=file.id)
+        file_permission.allowed_users.add(user)
+
+        client = APIClient()
+        client.force_authenticate(user=user)
+        response = client.get(f"/api/fileshare/{file.id}/", data={"password":"securepass"})
+        
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        

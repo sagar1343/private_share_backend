@@ -1,9 +1,7 @@
 from django.urls import path
 from rest_framework_nested import routers
 
-from .views import (CollectionViewset, UserViewset,
-                    PrivateFileViewset, AccessLogViewset,
-                    FilePermissionViewset, FileShareViewset)
+from .views import CollectionViewset, UserViewset, PrivateFileViewset, AccessLogViewset, FilePermissionViewset, FileShareViewset
 
 router = routers.DefaultRouter()
 
