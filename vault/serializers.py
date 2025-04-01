@@ -82,8 +82,16 @@ class AccessLogSerializer(serializers.ModelSerializer):
 
 
 class FileShareSerializer(serializers.ModelSerializer):
-    sender = serializers.CharField(read_only=True)
+    sender = serializers.SerializerMethodField()
 
     class Meta:
         model = PrivateFile
         fields = ['id', 'file_name', 'sender']
+
+    def get_sender(self,obj):
+        return {
+            'email': obj.sender_email,
+            'profile_pic': obj.sender_profile_pic,
+            'first_name': obj.sender_first_name,
+            'last_name': obj.sender_last_name
+        }

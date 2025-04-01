@@ -69,8 +69,12 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        sender = Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values('user__email')[:1])
-        return PrivateFile.objects.filter(file_permissions__allowed_users=self.request.user).annotate(sender=sender)
+        user_fields = ['email', 'profile_pic', 'first_name', 'last_name']
+        annotations= {
+            f"sender_{field}" : Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values(f"user__{field}")[:1])
+            for field in user_fields
+        }
+        return PrivateFile.objects.filter(file_permissions__allowed_users=self.request.user).annotate(**annotations)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
