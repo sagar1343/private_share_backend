@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
 from .serializers import CollectionSerializer, UserSerializer, PrivateFileSerializer, AccessLogSerializer, FilePermissionSerializer, FileShareSerializer
-
+from .pagination import CustomPagination
 
 class UserViewset(viewsets.ReadOnlyModelViewSet):
     queryset = get_user_model().objects.all().only('id', 'email', 'profile_pic', 'first_name', 'last_name')
@@ -27,6 +27,8 @@ class UserViewset(viewsets.ReadOnlyModelViewSet):
 class CollectionViewset(viewsets.ModelViewSet):
     serializer_class = CollectionSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = CustomPagination
+    
 
     def get_queryset(self):
         user_pk = int(self.kwargs.get('user_pk', 0))
