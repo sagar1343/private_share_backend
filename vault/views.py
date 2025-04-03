@@ -18,6 +18,7 @@ class UserViewset(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['email']
+    pagination_class = None
 
     def get_permissions(self):
         return [permissions.IsAuthenticated()] if self.action == 'list' else [IsOwner()]
