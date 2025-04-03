@@ -27,7 +27,6 @@ class UserViewset(viewsets.ReadOnlyModelViewSet):
 class CollectionViewset(viewsets.ModelViewSet):
     serializer_class = CollectionSerializer
     permission_classes = [permissions.IsAuthenticated]
-    pagination_class = None
 
     def get_queryset(self):
         user_pk = int(self.kwargs.get('user_pk', 0))
@@ -43,7 +42,6 @@ class PrivateFileViewset(viewsets.ModelViewSet):
     serializer_class = PrivateFileSerializer
     permission_classes = [permissions.IsAuthenticated]
     filterset_fields = ['collections']
-    pagination_class = None
 
     def get_queryset(self):
         return PrivateFile.objects.prefetch_related('collections').filter(collections__user=self.request.user).distinct()
