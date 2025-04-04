@@ -86,7 +86,7 @@ class FileShareSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PrivateFile
-        fields = ['id', 'file_name', 'sender']
+        fields = ['id', 'file_name', 'is_protected', 'sender']
 
     def get_sender(self,obj):
         return {
