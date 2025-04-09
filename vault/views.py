@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import F, OuterRef, Subquery
-from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import viewsets, permissions, filters, mixins, status
@@ -12,6 +11,7 @@ from .models import Collection, PrivateFile, AccessLog, FilePermission
 from .permissions import IsOwner
 from .serializers import CollectionSerializer, UserSerializer, PrivateFileSerializer, AccessLogSerializer, FilePermissionSerializer, FileShareSerializer
 from .pagination import CustomPagination
+from .utils import generate_url
 
 class UserViewset(viewsets.ReadOnlyModelViewSet):
     queryset = get_user_model().objects.all().only('id', 'email', 'profile_pic', 'first_name', 'last_name')
@@ -87,7 +87,7 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
         if not file_permisssion.allowed_users.filter(id=self.request.user.id).exists():
             return Response({"message": "You are not allowed to view this file"}, status=status.HTTP_403_FORBIDDEN)
 
-        if instance.password and not instance.check_file_password(request.data.get("password")):
+        if instance.password and not instance.check_file_password(request.query_params.get("password")):
             return Response({"message": "Invalid password"}, status=status.HTTP_401_UNAUTHORIZED)
 
         with transaction.atomic():
@@ -100,4 +100,4 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
             private_file.save()
 
             AccessLog.objects.create(private_file=instance, user=self.request.user, access_time=timezone.now())
-            return FileResponse(instance.file, as_attachment=True)
+            return Response(generate_url(instance.file.name))

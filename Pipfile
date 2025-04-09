@@ -17,6 +17,11 @@ pymysql = "*"
 django-debug-toolbar = "*"
 drf-spectacular = "*"
 drf-spectacular-sidecar = "*"
+django-storages = "*"
+boto3 = "*"
+django-extensions = "*"
+ipython = "*"
+cryptography = "*"
 
 [dev-packages]
 django-debug-toolbar = "*"
