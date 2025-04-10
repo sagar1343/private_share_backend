@@ -18,12 +18,18 @@ django-debug-toolbar = "*"
 drf-spectacular = "*"
 drf-spectacular-sidecar = "*"
 django-storages = "*"
-boto3 = "*"
 django-extensions = "*"
 ipython = "*"
 cryptography = "*"
+gunicorn = "*"
+boto3 = "*"
+celery = "*"
+flower = "*"
+redis = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
 django-debug-toolbar = "*"
 
 [requires]
