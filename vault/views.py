@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import F, OuterRef, Subquery
+from django.db.models import F, Q, OuterRef, Subquery
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import viewsets, permissions, filters, mixins, status
@@ -46,7 +46,7 @@ class PrivateFileViewset(viewsets.ModelViewSet):
     filterset_fields = ['collections']
 
     def get_queryset(self):
-        return PrivateFile.objects.prefetch_related('collections').filter(collections__user=self.request.user).distinct()
+        return PrivateFile.objects.prefetch_related('collections').filter(Q(collections__user=self.request.user)& Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))).distinct()
 
 
 class FilePermissionViewset(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
@@ -75,7 +75,7 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
             f"sender_{field}" : Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values(f"user__{field}")[:1])
             for field in user_fields
         }
-        return PrivateFile.objects.filter(file_permissions__allowed_users=self.request.user).annotate(**annotations)
+        return PrivateFile.objects.filter(Q(file_permissions__allowed_users=self.request.user) & Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))).annotate(**annotations)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
