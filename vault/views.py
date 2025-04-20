@@ -46,7 +46,7 @@ class PrivateFileViewset(viewsets.ModelViewSet):
     filterset_fields = ['collections']
 
     def get_queryset(self):
-        return PrivateFile.objects.prefetch_related('collections').filter(Q(collections__user=self.request.user)& Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))).distinct()
+        return PrivateFile.objects.prefetch_related('collections').filter(Q(collections__user=self.request.user) & (Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))| Q(expiration_time__isnull=True))).distinct()
 
 
 class FilePermissionViewset(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
@@ -75,7 +75,7 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
             f"sender_{field}" : Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values(f"user__{field}")[:1])
             for field in user_fields
         }
-        return PrivateFile.objects.filter(Q(file_permissions__allowed_users=self.request.user) & Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))).annotate(**annotations)
+        return PrivateFile.objects.filter(Q(file_permissions__allowed_users=self.request.user) & (Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7))| Q(expiration_time__isnull=True))).annotate(**annotations)
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()

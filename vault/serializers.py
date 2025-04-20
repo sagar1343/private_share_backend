@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
+from humanize import naturalsize
+
 from .models import Collection, PrivateFile, AccessLog, FilePermission
 
 
@@ -24,15 +26,19 @@ class CollectionSerializer(serializers.ModelSerializer):
 
 class PrivateFileSerializer(serializers.ModelSerializer):
     download_count = serializers.IntegerField(read_only=True)
+    size = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = PrivateFile
-        fields = ["id", "file", "file_name", "password", "is_protected", "collections",
+        fields = ["id", "file", "file_name", "size", "password", "is_protected", "collections",
                   "expiration_time", "max_download_count",
                   "download_count", "created_at"]
     
     def get_is_protected (self, obj):
         return obj.is_protected()
+    
+    def get_size(self, obj):
+        return naturalsize(obj.file.size)
     
     def validate_file(self, value):
         if value.size > 5 * 1024 * 1024:
@@ -83,12 +89,16 @@ class AccessLogSerializer(serializers.ModelSerializer):
 
 class FileShareSerializer(serializers.ModelSerializer):
     sender = serializers.SerializerMethodField()
+    size = serializers.SerializerMethodField()
 
     class Meta:
         model = PrivateFile
-        fields = ['id', 'file_name', 'is_protected', 'sender']
+        fields = ['id', 'file_name', 'size', 'is_protected', 'sender']
 
-    def get_sender(self,obj):
+    def get_size(self, obj):
+        return naturalsize(obj.file.size)
+
+    def get_sender(self, obj):
         return {
             'email': obj.sender_email,
             'profile_pic': obj.sender_profile_pic,
