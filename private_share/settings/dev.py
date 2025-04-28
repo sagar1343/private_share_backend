@@ -2,7 +2,7 @@ from .common import *
 
 DEBUG = True
 
-SECRET_KEY = "django-insecure-+auxcbt(50bliklu1u5fsn9#$%_t-2u(z%*8te4fo(rl*jk-&i"
+SECRET_KEY = os.getenv("DEV_DJANGO_SECRET_KEY")
 
 DATABASES = {
     "default": {

@@ -2,9 +2,9 @@ from .common import *
 
 DEBUG = False
 
-SECRET_KEY = "django-insecure-+auxcbt(50bliklu1u5fsn9#$%_t-2u(z%*8te4fo(rl*jk-&i"
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
-ALLOWED_HOSTS = ["http://localhost:8000"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 DATABASES = {
     "default": {
