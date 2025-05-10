@@ -41,8 +41,8 @@ class PrivateFileSerializer(serializers.ModelSerializer):
         return naturalsize(obj.file.size)
     
     def validate_file(self, value):
-        if value.size > 5 * 1024 * 1024:
-            raise serializers.ValidationError("File size must be less than 5MB")
+        if value.size > 100 * 1024 * 1024:
+            raise serializers.ValidationError("File size must be less than 100MB")
         return value
 
     def validate_collections(self, value):
