@@ -32,8 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://www.sagarcodes.me/",
-    "https://sagarcodes.me/",
+    "https://www.sagarcodes.me",
+    "https://sagarcodes.me",
     "https://private-share-frontend.vercel.app",
 ]
 
