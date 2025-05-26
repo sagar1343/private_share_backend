@@ -25,6 +25,9 @@ class PrivateFile(models.Model):
     collections = models.ManyToManyField(Collection)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    class Meta:
+        ordering = ['-created_at']
+    
     def save(self, *args, **kwargs):
         if self.password and not self.password.startswith("pbkdf2_sha256$"):
             self.password = make_password(self.password)

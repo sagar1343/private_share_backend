@@ -26,6 +26,10 @@ services:
   celery:
     container_name: celery
     image: sagar1343/private_share:1.0.2
+    environment:
+      - DJANGO_SETTINGS_MODULE=private_share.settings.production
+    env_file:
+      - .env
     command: ["celery", "-A", "private_share", "worker", "-l", "INFO"]
     depends_on:
       - redis
@@ -33,6 +37,10 @@ services:
   celery_beat:
     container_name: celery_beat
     image: sagar1343/private_share:1.0.2
+    environment:
+      - DJANGO_SETTINGS_MODULE=private_share.settings.production
+    env_file:
+      - .env
     command: ["celery", "-A", "private_share", "beat", "-l", "INFO"]
     depends_on:
       - redis
@@ -40,6 +48,10 @@ services:
   flower:
     image: sagar1343/private_share:1.0.2
     container_name: flower
+    environment:
+      - DJANGO_SETTINGS_MODULE=private_share.settings.production
+    env_file:
+      - .env
     ports:
       - "5555:5555"
     command: ["celery", "-A", "private_share", "flower"]
