@@ -27,14 +27,16 @@ class TestFileShare:
         )
         private_file.collections.add(collection)
 
-        file_permission = FilePermission.objects.get(id=private_file.id)
-        file_permission.allowed_users.add(user)
+        file_permission = FilePermission.objects.get(file=private_file)
+        file_permission.allowed_users = [user.email]
+        file_permission.save()
 
         client = APIClient()
         client.force_authenticate(user=user)
         response = client.get(f"/api/fileshare/{private_file.id}/")
 
         assert response.status_code == status.HTTP_200_OK
+        assert response.data is not None
 
     def test_user_cannot_download_expired_file(self):
         owner = baker.make(get_user_model())
@@ -46,21 +48,22 @@ class TestFileShare:
         expired_file = PrivateFile.objects.create(
             file_name="expired_file.txt",
             file=test_file,
-            password="securepass",
             expiration_time=timezone.now() - timezone.timedelta(days=1),
             max_download_count=3,
         )
         expired_file.collections.add(collection)
-        file_permission = FilePermission.objects.get(id=expired_file.id)
-        file_permission.allowed_users.add(user)
+        file_permission = FilePermission.objects.get(file=expired_file)
+        file_permission.allowed_users = [user.email]
+        file_permission.save()
 
         client = APIClient()
         client.force_authenticate(user=user)
         response = client.get(f"/api/fileshare/{expired_file.id}/")
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert response.data["message"] == "This file has expired"
 
-    def test_protected_file_access_denied_for_incorrect_password(self):
+    def test_user_cannot_download_file_without_permission(self):
         owner = baker.make(get_user_model())
         user = baker.make(get_user_model())
         collection = baker.make(Collection, user=owner)
@@ -68,25 +71,24 @@ class TestFileShare:
             "test_file.txt", b"Test file content", content_type="text/plain"
         )
         file = PrivateFile.objects.create(
-            file_name="expired_file.txt",
+            file_name="test_file.txt",
             file=test_file,
-            password="securepass",
             expiration_time=timezone.now() + timezone.timedelta(days=1),
             max_download_count=3,
         )
         file.collections.add(collection)
-        file_permission = FilePermission.objects.get(id=file.id)
-        file_permission.allowed_users.add(user)
+        file_permission = FilePermission.objects.get(file=file)
+        file_permission.allowed_users = []  # No users allowed
+        file_permission.save()
 
         client = APIClient()
         client.force_authenticate(user=user)
-        response = client.get(
-            f"/api/fileshare/{file.id}/", data={"password": "xsecurepass"}
-        )
+        response = client.get(f"/api/fileshare/{file.id}/")
 
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert response.data["message"] == "You are not allowed to view this file"
 
-    def test_protected_file_access_for_correct_password(self):
+    def test_user_cannot_download_file_after_max_downloads(self):
         owner = baker.make(get_user_model())
         user = baker.make(get_user_model())
         collection = baker.make(Collection, user=owner)
@@ -94,17 +96,20 @@ class TestFileShare:
             "test_file.txt", b"Test file content", content_type="text/plain"
         )
         file = PrivateFile.objects.create(
-            file_name="expired_file.txt",
+            file_name="test_file.txt",
             file=test_file,
-            password="securepass",
             expiration_time=timezone.now() + timezone.timedelta(days=1),
-            max_download_count=3,
+            max_download_count=1,
+            download_count=1,  # Already downloaded once
         )
         file.collections.add(collection)
-        file_permission = FilePermission.objects.get(id=file.id)
-        file_permission.allowed_users.add(user)
+        file_permission = FilePermission.objects.get(file=file)
+        file_permission.allowed_users = [user.email]
+        file_permission.save()
 
         client = APIClient()
         client.force_authenticate(user=user)
-        response = client.get(f"/api/fileshare/{file.id}/", {"password": "securepass"})
-        assert response.status_code == status.HTTP_200_OK
+        response = client.get(f"/api/fileshare/{file.id}/")
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+        assert response.data["message"] == "Download limit has been reached."

@@ -195,6 +195,6 @@ CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BEAT_SCHEDULE = {
     "delete_expired_files": {
         "task": "vault.tasks.delete_expired_files",
-        "schedule": crontab(day_of_week=1, hour=12, minute=0),
+        "schedule": crontab(hour=3, minute=0),
     },
 }

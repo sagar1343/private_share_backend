@@ -42,10 +42,13 @@ class PrivateFile(models.Model):
 
 class FilePermission(models.Model):
     file = models.ForeignKey(PrivateFile, on_delete=models.CASCADE, related_name="file_permissions")
-    allowed_users = models.ManyToManyField(get_user_model(), blank=True)
+    allowed_users = models.JSONField(default=list)
 
     def __str__(self):
         return f"{self.file} permissions"
+    
+    def has_access(self, email):
+        return email in self.allowed_users
 
 
 class AccessLog(models.Model):

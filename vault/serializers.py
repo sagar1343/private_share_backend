@@ -61,15 +61,12 @@ class PrivateFileSerializer(serializers.ModelSerializer):
 
 class FilePermissionSerializer(serializers.ModelSerializer):
     file = serializers.PrimaryKeyRelatedField(read_only=True)
+    allowed_users = serializers.ListField(child=serializers.EmailField(), required=False)
 
     class Meta:
         model = FilePermission
         fields = ['file', 'allowed_users']
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['allowed_users'] = list(instance.allowed_users.values_list('email', flat=True))
-        return representation
 
 
 class AccessLogSerializer(serializers.ModelSerializer):

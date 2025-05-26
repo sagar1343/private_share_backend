@@ -29,7 +29,7 @@ class FilePermissionAdmin(admin.ModelAdmin):
 
     @admin.display(description="Recipients")
     def recipients_count(self, obj):
-        return obj.allowed_users.count()
+        return len(obj.allowed_users)
 
 
 @admin.register(AccessLog)
