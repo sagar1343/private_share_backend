@@ -1,54 +1,54 @@
 services:
   api:
-    container_name: private_share 
-    build: .
-    environment: 
+    container_name: private_share
+    image: sagar1343/private_share:1.0.1
+    environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
     env_file:
       - .env
     ports:
       - "8000:8000"
     volumes:
-      - ./static:/staticfiles 
+      - ./static:/staticfiles
     depends_on:
       - redis
       - celery
       - celery_beat
-  
+
   redis:
     container_name: redis
     image: redis:alpine
     volumes:
       - redis_data:/data
-  
+
   celery:
     container_name: celery
-    build: .
-    command: ["celery", "-A", "private_share" ,"worker" ,"-l", "INFO"]
+    image: sagar1343/private_share:1.0.1
+    command: ["celery", "-A", "private_share", "worker", "-l", "INFO"]
     depends_on:
       - redis
-    
+
   celery_beat:
     container_name: celery_beat
-    build: .
-    command: ["celery", "-A", "private_share" ,"beat" ,"-l", "INFO"]
+    image: sagar1343/private_share:1.0.1
+    command: ["celery", "-A", "private_share", "beat", "-l", "INFO"]
     depends_on:
       - redis
 
   flower:
-    build: .
+    image: sagar1343/private_share:1.0.1
     container_name: flower
     ports:
       - "5555:5555"
-    command: ["celery", "-A", "private_share" ,"flower"]
+    command: ["celery", "-A", "private_share", "flower"]
     depends_on:
       - redis
-  
+
   nginx:
     image: nginx:alpine
     container_name: nginx
     ports:
-      - "80:80" 
+      - "80:80"
     volumes:
       - ./static:/staticfiles
       - ./nginx.conf:/etc/nginx/nginx.conf
