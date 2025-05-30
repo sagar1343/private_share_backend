@@ -55,10 +55,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "corsheaders",
     "django_filters",
+    "channels",
     "drf_spectacular",
     "drf_spectacular_sidecar",
     "core",
     "vault",
+    "notification",
 ]
 
 MIDDLEWARE = [
@@ -92,6 +94,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "private_share.wsgi.application"
+ASGI_APPLICATION = "private_share.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -162,6 +165,7 @@ if not os.environ.get("DEBUG"):
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "SIGNING_KEY": os.getenv("DJANGO_SECRET_KEY"),
 }
 
 SPECTACULAR_SETTINGS = {
@@ -191,10 +195,17 @@ AWS_S3_FILE_OVERWRITE = False
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
-CELERY_BROKER_URL = "redis://redis:6379/0"
 CELERY_BEAT_SCHEDULE = {
     "delete_expired_files": {
         "task": "vault.tasks.delete_expired_files",
         "schedule": crontab(hour=3, minute=0),
+    },
+    "notify_owner_for_expired_files": {
+        "task": "vault.tasks.notify_owner_for_expired_files",
+        "schedule": crontab(hour="*/12"),
+    },
+    "notify_owner_before_files_expiration": {
+        "task": "vault.tasks.notify_owner_before_files_expiration",
+        "schedule": crontab(hour="*/4"),
     },
 }

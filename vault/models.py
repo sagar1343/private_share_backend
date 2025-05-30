@@ -22,6 +22,7 @@ class PrivateFile(models.Model):
     max_download_count = models.PositiveSmallIntegerField(default=3, validators=[MinValueValidator(limit_value=1)])
     download_count = models.PositiveSmallIntegerField(default=0)
     expiration_time = models.DateTimeField(null=True, blank=True)
+    last_notification_sent = models.DateTimeField(null=True, blank=True)
     collections = models.ManyToManyField(Collection)
     created_at = models.DateTimeField(auto_now_add=True)
     

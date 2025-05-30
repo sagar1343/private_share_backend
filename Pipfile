@@ -26,6 +26,12 @@ boto3 = "*"
 celery = "*"
 flower = "*"
 redis = "*"
+channels = "*"
+pytest-asyncio = "*"
+daphne = "*"
+asgiref = "*"
+channels-redis = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 pytest = "*"

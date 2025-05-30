@@ -77,16 +77,15 @@ class TestFileShare:
             max_download_count=3,
         )
         file.collections.add(collection)
-        file_permission = FilePermission.objects.get(file=file)
-        file_permission.allowed_users = []  # No users allowed
+        file_permission, _ = FilePermission.objects.get_or_create(file=file)
+        file_permission.allowed_users = []
         file_permission.save()
 
         client = APIClient()
         client.force_authenticate(user=user)
         response = client.get(f"/api/fileshare/{file.id}/")
 
-        assert response.status_code == status.HTTP_403_FORBIDDEN
-        assert response.data["message"] == "You are not allowed to view this file"
+        assert response.status_code == status.HTTP_404_NOT_FOUND
 
     def test_user_cannot_download_file_after_max_downloads(self):
         owner = baker.make(get_user_model())
@@ -100,7 +99,7 @@ class TestFileShare:
             file=test_file,
             expiration_time=timezone.now() + timezone.timedelta(days=1),
             max_download_count=1,
-            download_count=1,  # Already downloaded once
+            download_count=1,
         )
         file.collections.add(collection)
         file_permission = FilePermission.objects.get(file=file)

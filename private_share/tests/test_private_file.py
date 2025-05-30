@@ -2,7 +2,7 @@ from datetime import timedelta
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.utils.timezone import now
+from django.utils import timezone
 from rest_framework import status
 from rest_framework.test import APIClient
 from model_bakery import baker
@@ -26,7 +26,7 @@ class TestPrivateFile:
                 "file_name": "test_file",
                 "file": large_file,
                 "collection": [collection.id],
-                "expiration_time": (now() + timedelta(days=7)),
+                "expiration_time": (timezone.now() + timedelta(days=7)),
             },
             format="multipart",
         )
@@ -50,7 +50,7 @@ class TestPrivateFile:
                 "file_name": "test_file",
                 "file": small_file,
                 "collection": [collection.id],
-                "expiration_time": (now() + timedelta(days=7)),
+                "expiration_time": (timezone.now() + timedelta(days=7)),
             },
             format="multipart",
         )
@@ -66,7 +66,7 @@ class TestPrivateFile:
         private_file = PrivateFile.objects.create(
             file_name="test",
             file=test_file,
-            expiration_time=now() + timedelta(days=7),
+            expiration_time=timezone.now() + timedelta(days=7),
         )
         private_file.collections.set([collection1])
 

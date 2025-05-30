@@ -15,7 +15,7 @@ services:
       - celery
       - celery_beat
     command: >
-      sh -c "python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 private_share.wsgi:application"
+      sh -c "python manage.py collectstatic --noinput && uvicorn private_share.asgi:application --host 0.0.0.0 --port 8000"
 
   redis:
     container_name: redis
