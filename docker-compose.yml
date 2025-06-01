@@ -1,7 +1,7 @@
 services:
   api:
     container_name: private_share
-    image: sagar1343/private_share:1.0.2
+    image: sagar1343/private_share:1.1.0
     environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
     env_file:
@@ -25,7 +25,7 @@ services:
 
   celery:
     container_name: celery
-    image: sagar1343/private_share:1.0.2
+    image: sagar1343/private_share:1.1.0
     environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
     env_file:
@@ -36,7 +36,7 @@ services:
 
   celery_beat:
     container_name: celery_beat
-    image: sagar1343/private_share:1.0.2
+    image: sagar1343/private_share:1.1.0
     environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
     env_file:
@@ -46,7 +46,7 @@ services:
       - redis
 
   flower:
-    image: sagar1343/private_share:1.0.2
+    image: sagar1343/private_share:1.1.0
     container_name: flower
     environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
