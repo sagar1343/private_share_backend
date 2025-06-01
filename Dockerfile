@@ -14,4 +14,4 @@ RUN pipenv install --system
 
 COPY . .
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "private_share.wsgi:application" ]
+CMD ["uvicorn", "private_share.asgi:application" ,"--host", "0.0.0.0", "--port","8000"]

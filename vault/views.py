@@ -75,8 +75,7 @@ class FileShareViewset(mixins.RetrieveModelMixin, mixins.ListModelMixin, viewset
             f"sender_{field}": Subquery(Collection.objects.filter(privatefile=OuterRef('id')).values(f"user__{field}")[:1])
             for field in user_fields
         }
-        return PrivateFile.objects.filter(
-            Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7)) | Q(expiration_time__isnull=True)
+        return PrivateFile.objects.filter(file_permissions__allowed_users__contains=[self.request.user.email]).filter(Q(expiration_time__gt=timezone.now() - timezone.timedelta(days=7)) | Q(expiration_time__isnull=True)
         ).annotate(**annotations).distinct()
 
     def retrieve(self, request, *args, **kwargs):
