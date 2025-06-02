@@ -1,6 +1,5 @@
 services:
   api:
-    container_name: private_share
     image: sagar1343/private_share:1.1.0
     environment:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
