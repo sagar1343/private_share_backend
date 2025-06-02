@@ -6,8 +6,8 @@ services:
       - DJANGO_SETTINGS_MODULE=private_share.settings.production
     env_file:
       - .env
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - ./static:/staticfiles
     depends_on:
