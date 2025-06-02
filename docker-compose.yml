@@ -15,12 +15,14 @@ services:
       - celery_beat
     command: >
       sh -c "python manage.py collectstatic --noinput && uvicorn private_share.asgi:application --host 0.0.0.0 --port 8000"
+    restart: on-failure
 
   redis:
     container_name: redis
     image: redis:alpine
     volumes:
       - redis_data:/data
+    restart: on-failure
 
   celery:
     container_name: celery
@@ -32,6 +34,7 @@ services:
     command: ["celery", "-A", "private_share", "worker", "-l", "INFO"]
     depends_on:
       - redis
+    restart: on-failure
 
   celery_beat:
     container_name: celery_beat
@@ -43,6 +46,7 @@ services:
     command: ["celery", "-A", "private_share", "beat", "-l", "INFO"]
     depends_on:
       - redis
+    restart: on-failure
 
   flower:
     image: sagar1343/private_share:1.1.0
@@ -56,6 +60,7 @@ services:
     command: ["celery", "-A", "private_share", "flower"]
     depends_on:
       - redis
+    restart: on-failure
 
   nginx:
     image: nginx:alpine
@@ -70,6 +75,7 @@ services:
       - ./certbot/www:/var/www/certbot
     depends_on:
       - api
+    restart: on-failure
 
   certbot:
     image: certbot/certbot
