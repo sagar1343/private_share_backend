@@ -213,6 +213,6 @@ CELERY_BEAT_SCHEDULE = {
 
 
 sentry_sdk.init(
-    dsn="https://8717b5737cb91d98ac0f9917be0b605b@o4507993663799296.ingest.us.sentry.io/4509496196005888",
+    dsn=os.getenv("SENTRY_DSN"),
     send_default_pii=True,
 )
