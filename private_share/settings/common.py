@@ -15,6 +15,7 @@ from datetime import timedelta
 from pathlib import Path
 import pymysql
 from celery.schedules import crontab
+import sentry_sdk
 
 pymysql.install_as_MySQLdb()
 
@@ -209,3 +210,9 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(hour="*/4"),
     },
 }
+
+
+sentry_sdk.init(
+    dsn="https://8717b5737cb91d98ac0f9917be0b605b@o4507993663799296.ingest.us.sentry.io/4509496196005888",
+    send_default_pii=True,
+)

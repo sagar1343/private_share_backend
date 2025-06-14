@@ -32,6 +32,7 @@ daphne = "*"
 asgiref = "*"
 channels-redis = "*"
 uvicorn = {extras = ["standard"], version = "*"}
+sentry-sdk = {extras = ["django"], version = "*"}
 
 [dev-packages]
 pytest = "*"

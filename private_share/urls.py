@@ -22,7 +22,12 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 
+def trigger_error(request):
+    1 / 0
+    
+
 urlpatterns = [
+    path("sentry-debug/", trigger_error),
     path("",include("core.urls")),
     path("admin/", admin.site.urls),
     path("auth/", include("core.urls")),
